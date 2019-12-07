@@ -9,24 +9,26 @@ func Less (word1, word2 string, alphaDict map[byte] int) bool {
 
 	minLength := int(math.Min(float64(len(word1)), float64(len(word2))))
 	i := 0
-	for ; i < minLength; i++ {
-		char1Order, _ := alphaDict[word1[i]]
-		char2Order, _ := alphaDict[word2[i]]
+	word1CurrentOrder := 0
+  word2CurrentOrder := 0
 
-		fmt.Printf("char1Order %d\n", char1Order)
-		fmt.Printf("char2Order %d\n", char2Order)
+  for ; i < minLength; i++ {
+    char1Value,_ := alphaDict[word1[i]]
+    char2Value,_ := alphaDict[word2[i]]
 
-		if char1Order < char2Order {
-			return false
-		}
-	}
+    word1CurrentOrder+=char1Value
+    word2CurrentOrder+=char2Value
 
-	if len(word1) > i {
-		return false
-	}
+    if word1CurrentOrder > word2CurrentOrder {
+      return false
+    }
+  }
 
-	return true
+  if word1CurrentOrder == word2CurrentOrder && len(word1) > i {
+    return false
+  }
 
+  return true
 }
 
 func isAlienSorted(words []string, order string) bool {
@@ -44,5 +46,5 @@ func isAlienSorted(words []string, order string) bool {
 }
 
 func main() {
- fmt.Printf("Words %v are sorted %v", []string{"hello","leetcode"}, isAlienSorted([]string{"hello","leetcode"}, "hlabcdefgijkmnopqrstuvwxyz"))
+ fmt.Printf("Words %v are sorted %v", []string{"word", "world", "row"}, isAlienSorted([]string{"word", "world", "row"}, "hlabcdefgijkmnopqrstuvxyz"))
 }
